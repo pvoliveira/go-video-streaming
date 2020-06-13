@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watcher</title>
+</head>
+
+<body>
+    <div>
+        <img id="target" style="display: inline;" />
+    </div>
+    <script>
+        // get img dom element
+        window.imgDest = document.querySelector('#target');
+
+        const WS_URL = 'ws://localhost:3000/ws';
+        const ws = new WebSocket(WS_URL);
+        ws.onopen = () => console.log(`Connected to ${WS_URL}`);
+
+        ws.onerror = (e) => console.error(e);
+
+        ws.onclose = () => console.log(`Connection Closed to ${WS_URL}`);;
+
+        window.bufferMessages = [];
+
+        ws.onmessage = message => {
+            window.imgDest.src = message.data;
+        }
+    </script>
+</body>
+
+</html>
